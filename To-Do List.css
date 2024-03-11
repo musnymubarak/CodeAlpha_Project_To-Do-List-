@@ -31,6 +31,10 @@ button {
     cursor: pointer;
 }
 
+button.delete {
+    background-color: #FF5733; /* Red color for delete button */
+}
+
 button:hover {
     background-color: #45a049;
 }
@@ -43,9 +47,10 @@ ul {
 li {
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    display: flex; /* Use flexbox to align items */
+    justify-content: space-between; /* Space between task text and delete button */
 }
 
 li:last-child {
     border-bottom: none;
 }
-
