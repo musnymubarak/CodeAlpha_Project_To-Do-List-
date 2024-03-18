@@ -1,10 +1,12 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-    max-width: 500px;
+    max-width: 700px;
     margin: 50px auto;
     padding: 20px;
     background-color: #fff;
@@ -17,13 +19,15 @@ h1 {
 }
 
 input[type="text"] {
-    width: 70%;
+    width: calc(100% - 80px);
     padding: 10px;
     margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
 }
 
 button {
-    padding: 10px 20px;
+    padding: 10px 15px;
     background-color: #4CAF50;
     color: #fff;
     border: none;
@@ -32,7 +36,11 @@ button {
 }
 
 button.delete {
-    background-color: #FF5733; 
+    background-color: #FF5733;
+}
+
+button.mark-as-done {
+    background-color: #3498db;
 }
 
 button:hover {
@@ -47,10 +55,19 @@ ul {
 li {
     padding: 10px;
     border-bottom: 1px solid #ddd;
-    display: flex; 
-    justify-content: space-between; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 li:last-child {
     border-bottom: none;
+}
+
+.completed button {
+    text-decoration: none; /* Remove strike-through effect on buttons */
+}
+
+.completed span {
+    text-decoration: line-through; /* Add strike-through effect to completed tasks */
 }
