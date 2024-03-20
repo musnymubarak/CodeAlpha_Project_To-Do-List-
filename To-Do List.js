@@ -1,132 +1,96 @@
 function moveTaskToCompleted(task) {
-    var completedTaskList = document.getElementById("completedTaskList");
+    const completedTaskList = document.getElementById("completedTaskList");
+    completedTaskList.insertAdjacentElement("beforeend", task);
+  }
+  
+  function moveTaskBackToMainList(task) {
+    const taskList = document.getElementById("taskList");
+    taskList.insertAdjacentElement("beforeend", task);
+  }
+  
+  function addTask() {
+    var taskInput = document.getElementById("taskInput");
+    var taskList = document.getElementById("taskList");
+  
+    if (taskInput.value === "") {
+      alert("Please Enter a Task");
+      return;
+    }
+  
+    var li = document.createElement("li");
+    li.textContent = taskInput.value;
+  
     var deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.className = "delete";
     deleteButton.onclick = function () {
-        deleteTask(task);
+      deleteTask(li);
     };
-
-    var undoneButton = document.createElement("button");
-    undoneButton.textContent = "Mark as Undone";
-    undoneButton.onclick = function () {
-        moveTaskBackToMainList(task);
-    };
-
-    // Create a span element to display the task name
-    var taskName = document.createElement("span");
-    taskName.textContent = task.textContent;
-
-    // Remove all existing buttons from the task
-    task.innerHTML = "";
-
-    // Append the task name and new buttons to the task
-    task.appendChild(taskName);
-    task.appendChild(deleteButton);
-    task.appendChild(undoneButton);
-    task.classList.add("completed");
-    completedTaskList.appendChild(task);
-}
-
-function moveTaskBackToMainList(task) {
-    var taskList = document.getElementById("taskList");
-
-    // Create a new list item
-    var newTask = document.createElement("li");
-    newTask.textContent = task.textContent;
-
-    // Append the original buttons to the new task
-    var buttons = task.querySelectorAll("button:not(.delete)"); // Exclude delete button
-    buttons.forEach(function(button) {
-        var clonedButton = button.cloneNode(true); // Deep clone with all event listeners
-        clonedButton.onclick = function() {
-            if (clonedButton.textContent === "Mark as Done") {
-                moveTaskToCompleted(newTask);
-            } else {
-                moveTaskBackToMainList(newTask);
-            }
-        };
-        newTask.appendChild(clonedButton);
-    });
-
-    // Append the delete button to the new task
-    var deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.className = "delete";
-    deleteButton.onclick = function() {
-        deleteTask(newTask);
-    };
-    newTask.appendChild(deleteButton);
-
-    // Append the new task to the main list
-    taskList.appendChild(newTask);
-
-    // Remove the original completed task
-    var completedTaskList = document.getElementById("completedTaskList");
-    completedTaskList.removeChild(task);
-}
-
-function addTask() {
-    var taskInput = document.getElementById("taskInput");
-    var taskList = document.getElementById("taskList");
-
-    if (taskInput.value === "") {
-        alert("Please Enter a Task");
-        return;
-    }
-
-    var li = document.createElement("li");
-    li.textContent = taskInput.value;
-
-    var deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.className = "delete";
-    deleteButton.onclick = function() {
-        deleteTask(li);
-    };
-
+  
     var moveUpButton = document.createElement("button");
     moveUpButton.textContent = "Move Up";
-    moveUpButton.onclick = function() {
-        moveTaskUp(li);
+    moveUpButton.className = "moveUpButton";
+  
+    moveUpButton.onclick = function () {
+      moveTaskUp(li);
     };
-
+  
     var moveDownButton = document.createElement("button");
     moveDownButton.textContent = "Move Down";
-    moveDownButton.onclick = function() {
-        moveTaskDown(li);
+    moveDownButton.className = "moveDownButton";
+  
+    moveDownButton.onclick = function () {
+      moveTaskDown(li);
     };
-
+  
     var completeButton = document.createElement("button");
+    completeButton.className = "not-done";
     completeButton.textContent = "Mark as Done";
+  
     completeButton.onclick = function () {
+      if (completeButton.classList.contains("not-done")) {
         moveTaskToCompleted(li);
+        completeButton.classList.add("done");
+        completeButton.classList.remove("not-done");
+        li.querySelector(".moveDownButton").style.display = "none";
+        li.querySelector(".moveUpButton").style.display = "none";
+      } else {
+        moveTaskBackToMainList(li);
+        completeButton.classList.add("not-done");
+        completeButton.classList.remove("done");
+        li.querySelector(".moveDownButton").style.display = "flex";
+        li.querySelector(".moveUpButton").style.display = "flex";
+      }
+      completeButton.textContent = completeButton.classList.contains("done")
+        ? "Mark as Undone"
+        : "Mark as Done";
     };
-
+  
     li.appendChild(deleteButton);
     li.appendChild(moveUpButton);
     li.appendChild(moveDownButton);
     li.appendChild(completeButton);
     taskList.appendChild(li);
-
+  
     taskInput.value = "";
-}
-
-function moveTaskUp(task) {
+  }
+  
+  function moveTaskUp(task) {
     var prevTask = task.previousElementSibling;
     if (prevTask) {
-        task.parentNode.insertBefore(task, prevTask);
+      task.parentNode.insertBefore(task, prevTask);
     }
-}
-
-function moveTaskDown(task) {
+  }
+  
+  function moveTaskDown(task) {
     var nextTask = task.nextElementSibling;
     if (nextTask) {
-        task.parentNode.insertBefore(nextTask, task);
+      task.parentNode.insertBefore(nextTask, task);
     }
-}
-
-function deleteTask(task) {
+  }
+  
+  function deleteTask(task) {
     var taskList = document.getElementById("taskList");
     taskList.removeChild(task);
-}
+  }
+  
