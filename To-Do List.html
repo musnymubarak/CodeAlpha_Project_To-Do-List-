@@ -11,9 +11,25 @@
         <h1>To-Do List</h1>
         <input type="text" id="taskInput" placeholder="Enter task...">
         <button onclick="addTask()">Add Task</button>
-        <ul id="taskList"></ul>
+        <table id="taskTable">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="taskList"></tbody>
+        </table>
         <h2>Completed Tasks</h2>
-        <ul id="completedTaskList"></ul>
+        <table id="completedTaskTable">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="completedTaskList"></tbody>
+        </table>
     </div>
 
     <script src="To-Do List.js"></script>
